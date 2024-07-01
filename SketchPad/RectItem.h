@@ -34,6 +34,5 @@ private:
 
     std::string Name() override { return "Rectangle"; }
     int Id() override { return id; }
-
 };
 

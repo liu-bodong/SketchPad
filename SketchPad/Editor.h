@@ -30,6 +30,9 @@ public:
 
     void SetMode(Mode);
 
+    void SetPen(QPen& pen) { m_pen = pen; }
+    QPen& GetPen() { return m_pen; }
+
 public slots:
     void OnLineSelected();
     void OnRectSelected();
@@ -37,6 +40,10 @@ public slots:
     void OnTextSelected();
     void OnUndoSelected();
     void OnRedoSelected();
+    void OnClearClicked();
+    void OnColorChanged(QColor& color) { m_pen.setColor(color); }
+    void OnWidthChanged(int width) { m_pen.setWidth(width); }
+
 
 private:
     void paintEvent(QPaintEvent*) override;
@@ -50,5 +57,7 @@ private:
 
     Mode m_mode = eIdle;
     bool m_perm = false;
+
+    QPen m_pen;
 };
 

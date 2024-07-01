@@ -67,6 +67,12 @@ ShapeBase* Canvas::GetShape(QPoint point)
     return nullptr;
 }
 
+void Canvas::Clear()
+{
+
+    m_shapes.clear();
+}
+
 //#################################### Private ########################################
 
 

@@ -18,9 +18,11 @@ public:
 
 signals:
     void CommandSelected(std::string);
+    void ColorChanged(QColor&);
 
 public slots:
-    // void OnLineSelected();
+    void OpenColorDialog();
+    void ChangeButtonColor(QColor&);
 
 private:
     MainWindow(QWidget* parent = nullptr);

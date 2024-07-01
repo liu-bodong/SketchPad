@@ -2,6 +2,8 @@
 #include "Canvas.h"
 #include <qdebug.h>
 #include "History.h"
+#include "Editor.h"
+#include "MainWindow.h"
 
 LineCommand::LineCommand(Canvas* c) : CommandBase(c)
 {
@@ -10,31 +12,29 @@ LineCommand::LineCommand(Canvas* c) : CommandBase(c)
 
 void LineCommand::Execute()
 {
-    auto pCanvas = Canvas::GetInstance();
-    auto pHistory = History::GetInstance();
+    auto pEditor = MainWindow::GetInstance()->GetEditor();
 
-    bool isFirstSave = pHistory->IsUndoEmpty();
-
-    auto start = m_points[0];
-    auto end = m_points[1];
+    bool isFirstSave = m_pHistory->IsUndoEmpty();
 
     auto line = new LineItem();
-    line->SetStart(start);
-    line->SetEnd(end);
+    line->SetStart(m_points[0]);
+    line->SetEnd(m_points[1]);
 
     if (isFirstSave)
     {
-        auto pMem = pCanvas->CreateMemento();
-        pHistory->Save(pMem);
+        auto pMem = m_pCanvas->CreateMemento();
+        m_pHistory->Save(pMem);
         isFirstSave = false;
     }
 
-    pCanvas->AddShape(line);
+    line->SetPen(pEditor->GetPen());
+
+    m_pCanvas->AddShape(line);
 
     if (!isFirstSave)
     {
-        auto pMem = pCanvas->CreateMemento();
-        pHistory->Save(pMem);
+        auto pMem = m_pCanvas->CreateMemento();
+        m_pHistory->Save(pMem);
     }
 }
 

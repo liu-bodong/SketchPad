@@ -16,6 +16,8 @@ Editor::Editor(QWidget* parent)
     : QWidget(parent)
 {
     m_pCanvas = Canvas::GetInstance();
+    m_pen.setColor(Qt::black);
+    m_pen.setWidth(3);
 }
 
 void Editor::SetMode(Mode mode)
@@ -45,8 +47,8 @@ void Editor::OnCircleSelected()
 
 void Editor::OnTextSelected()
 {
-    // m_pCommand = CommandRegister::GetInstance()->GetCommand("Text");
-    // m_mode = eDrawing;
+    m_pCommand = CommandRegister::GetInstance()->GetCommand("Text");
+    m_mode = eDrawing;
 }
 
 void Editor::OnUndoSelected()
@@ -65,18 +67,26 @@ void Editor::OnRedoSelected()
     update();
 }
 
+void Editor::OnClearClicked()
+{
+    m_pCommand = CommandRegister::GetInstance()->GetCommand("Clear");
+    m_mode = eIdle;
+    m_pCommand->Execute();
+    update();
+}
+
 // ##################### Private #####################
 
 void Editor::paintEvent(QPaintEvent* event)
 {
-    qDebug() << "Paint Event";
     m_pCanvas = Canvas::GetInstance();
     QPainter painter(this);
-    painter.setPen(QPen(Qt::blue, 3));
     painter.setRenderHint(QPainter::Antialiasing, true);
+
     m_shapes = m_pCanvas->GetShapes();
     for (auto item : m_shapes)
     {
+        painter.setPen(item->GetPen());
         item->Paint(painter);
         qDebug() << "Painted";
     }
@@ -85,6 +95,8 @@ void Editor::paintEvent(QPaintEvent* event)
         m_pCommand->TempExecute();
         for (auto item : m_pCommand->GetTempShapes())
         {
+            //painter.setPen(item->GetPen());
+            painter.setPen(m_pen);
             item->Paint(painter);
         }
         qDebug() << "Temp Painted";

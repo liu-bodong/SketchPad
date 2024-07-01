@@ -1,34 +1,33 @@
 #include "RectCommand.h"
 #include "Canvas.h"
 #include "History.h"
+#include "MainWindow.h"
 
 void RectCommand::Execute()
 {
-    auto pCanvas = Canvas::GetInstance();
-    auto pHistory = History::GetInstance();
+    auto pEditor = MainWindow::GetInstance()->GetEditor();
 
-    bool isFirstSave = pHistory->IsUndoEmpty();
-
-    auto start = m_points[0];
-    auto end = m_points[1];
+    bool isFirstSave = m_pHistory->IsUndoEmpty();
 
     auto rect = new RectItem();
-    rect->SetUpperLeft(start);
-    rect->SetLowerRight(end);
+    rect->SetUpperLeft(m_points[0]);
+    rect->SetLowerRight(m_points[1]);
 
     if (isFirstSave)
     {
-        auto pMem = pCanvas->CreateMemento();
-        pHistory->Save(pMem);
+        auto pMem = m_pCanvas->CreateMemento();
+        m_pHistory->Save(pMem);
         isFirstSave = false;
     }
 
-    pCanvas->AddShape(rect);
+    rect->SetPen(pEditor->GetPen());
+
+    m_pCanvas->AddShape(rect);
 
     if (!isFirstSave)
     {
-        auto pMem = pCanvas->CreateMemento();
-        pHistory->Save(pMem);
+        auto pMem = m_pCanvas->CreateMemento();
+        m_pHistory->Save(pMem);
     }
 }
 

@@ -27,6 +27,10 @@ public:
 
     Memento* CreateMemento();
 
+    void Clear();
+
+    bool IsEmpty() const { return m_shapes.empty(); }
+
 private:
     Canvas();
     Canvas(const Canvas&);

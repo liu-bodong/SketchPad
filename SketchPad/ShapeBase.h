@@ -5,6 +5,8 @@
 #include <qdatastream.h>
 #include <qpainter.h>
 #include <string>
+#include <qpen.h>
+
 
 class ShapeBase
 {
@@ -19,6 +21,15 @@ public:
     virtual ShapeBase* Clone() const = 0;
     virtual void Serialize(QDataStream&) const = 0;
     virtual void Deserialize(QDataStream&) = 0;
+
+    void SetPen(QPen pen) { m_pen = pen; }
+    void SetPenColor(QColor color) { m_pen.setColor(color); }
+    void SetPenWidth(int width) { m_pen.setWidth(width); }
+
+    QPen GetPen() { return m_pen; }
+
+protected:
+    QPen m_pen;
 
 private:
     virtual std::string Name() = 0;

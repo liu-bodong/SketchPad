@@ -2,13 +2,13 @@
 #include "LineItem.h"
 #include "Canvas.h"
 #include "History.h"
+#include "MainWindow.h"
 
 void CircleCommand::Execute()
 {
-    auto pCanvas = Canvas::GetInstance();
-    auto pHistory = History::GetInstance();
+    auto pEditor = MainWindow::GetInstance()->GetEditor();
 
-    bool isFirstSave = pHistory->IsUndoEmpty();
+    bool isFirstSave = m_pHistory->IsUndoEmpty();
 
     auto center = m_points[0];
     auto radius = sqrt(pow(m_points[1].x() - m_points[0].x(), 2) + pow(m_points[1].y() - m_points[0].y(), 2));
@@ -19,17 +19,19 @@ void CircleCommand::Execute()
 
     if (isFirstSave)
     {
-        auto pMem = pCanvas->CreateMemento();
-        pHistory->Save(pMem);
+        auto pMem = m_pCanvas->CreateMemento();
+        m_pHistory->Save(pMem);
         isFirstSave = false;
     }
 
-    pCanvas->AddShape(circle);
+    circle->SetPen(pEditor->GetPen());
+
+    m_pCanvas->AddShape(circle);
 
     if (!isFirstSave)
     {
-        auto pMem = pCanvas->CreateMemento();
-        pHistory->Save(pMem);
+        auto pMem = m_pCanvas->CreateMemento();
+        m_pHistory->Save(pMem);
     }
 }
 

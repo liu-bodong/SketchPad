@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="CircleCommand.cpp" />
     <ClCompile Include="CircleItem.cpp" />
+    <ClCompile Include="ClearCommand.cpp" />
     <ClCompile Include="CommandRegister.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="History.cpp" />
@@ -108,6 +109,8 @@
     <ClCompile Include="Memento.cpp" />
     <ClCompile Include="RectCommand.cpp" />
     <ClCompile Include="RectItem.cpp" />
+    <ClCompile Include="TextCommand.cpp" />
+    <ClCompile Include="TextItem.cpp" />
     <ClCompile Include="Utils.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="MainWindow.ui" />
@@ -121,6 +124,7 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="CircleCommand.h" />
     <ClInclude Include="CircleItem.h" />
+    <ClInclude Include="ClearCommand.h" />
     <ClInclude Include="CommandBase.h" />
     <ClInclude Include="CommandRegister.h" />
     <QtMoc Include="Editor.h" />
@@ -132,6 +136,8 @@
     <ClInclude Include="RectItem.h" />
     <ClInclude Include="RedoCommand.h" />
     <ClInclude Include="ShapeBase.h" />
+    <ClInclude Include="TextCommand.h" />
+    <ClInclude Include="TextItem.h" />
     <ClInclude Include="UndoCommand.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

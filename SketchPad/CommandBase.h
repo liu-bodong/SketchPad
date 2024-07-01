@@ -3,6 +3,8 @@
 #include <string>
 #include <qpoint.h>
 #include <vector>
+#include "History.h"
+#include "Canvas.h"
 
 class Memento;
 class Canvas;
@@ -34,7 +36,8 @@ public:
 
 protected:
     Memento* m_pMemento;
-    Canvas* m_pCanvas;
+    Canvas* m_pCanvas = Canvas::GetInstance();
+    History* m_pHistory = History::GetInstance();
 
     std::string m_name;
 };
