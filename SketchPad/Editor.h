@@ -34,6 +34,9 @@ public slots:
     void OnLineSelected();
     void OnRectSelected();
     void OnCircleSelected();
+    void OnTextSelected();
+    void OnUndoSelected();
+    void OnRedoSelected();
 
 private:
     void paintEvent(QPaintEvent*) override;

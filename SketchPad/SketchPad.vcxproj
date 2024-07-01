@@ -103,6 +103,7 @@
     <ClCompile Include="CircleItem.cpp" />
     <ClCompile Include="CommandRegister.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="History.cpp" />
     <ClCompile Include="LineCommand.cpp" />
     <ClCompile Include="Memento.cpp" />
     <ClCompile Include="RectCommand.cpp" />
@@ -112,7 +113,6 @@
     <QtUic Include="MainWindow.ui" />
     <QtMoc Include="MainWindow.h" />
     <ClCompile Include="Canvas.cpp" />
-    <ClCompile Include="CommandBase.cpp" />
     <ClCompile Include="LineItem.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
@@ -124,12 +124,15 @@
     <ClInclude Include="CommandBase.h" />
     <ClInclude Include="CommandRegister.h" />
     <QtMoc Include="Editor.h" />
+    <ClInclude Include="History.h" />
     <ClInclude Include="LineCommand.h" />
     <ClInclude Include="LineItem.h" />
     <ClInclude Include="Memento.h" />
     <ClInclude Include="RectCommand.h" />
     <ClInclude Include="RectItem.h" />
+    <ClInclude Include="RedoCommand.h" />
     <ClInclude Include="ShapeBase.h" />
+    <ClInclude Include="UndoCommand.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

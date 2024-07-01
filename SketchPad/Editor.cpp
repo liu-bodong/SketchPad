@@ -43,8 +43,29 @@ void Editor::OnCircleSelected()
     m_mode = eDrawing;
 }
 
-// ##################### Private #####################
+void Editor::OnTextSelected()
+{
+    // m_pCommand = CommandRegister::GetInstance()->GetCommand("Text");
+    // m_mode = eDrawing;
+}
 
+void Editor::OnUndoSelected()
+{
+    m_pCommand = CommandRegister::GetInstance()->GetCommand("Undo");
+    m_mode = eIdle;
+    m_pCommand->Execute();
+    update();
+}
+
+void Editor::OnRedoSelected()
+{
+    m_pCommand = CommandRegister::GetInstance()->GetCommand("Redo");
+    m_mode = eIdle;
+    m_pCommand->Execute();
+    update();
+}
+
+// ##################### Private #####################
 
 void Editor::paintEvent(QPaintEvent* event)
 {
@@ -52,6 +73,7 @@ void Editor::paintEvent(QPaintEvent* event)
     m_pCanvas = Canvas::GetInstance();
     QPainter painter(this);
     painter.setPen(QPen(Qt::blue, 3));
+    painter.setRenderHint(QPainter::Antialiasing, true);
     m_shapes = m_pCanvas->GetShapes();
     for (auto item : m_shapes)
     {

@@ -16,9 +16,9 @@ public:
 
     virtual void Execute() = 0;
 
-    void Undo();
-    void Redo();
-    void Save();
+    //void Undo();
+    //void Redo();
+    //void Save();
 
     virtual void AddPoint(QPointF) = 0;
     virtual void Clear() = 0;
@@ -28,7 +28,7 @@ public:
     virtual void ModifyTempPoint(QPointF) = 0;  // Modify the last point of the temporary shape
     virtual void ClearTempPoints() = 0;         // Clear the temporary shape points
     virtual bool IsTempReady() const = 0;       // Check if the number of points has reached the required count
-    virtual void TempExecute() = 0;             // Execute to see temparary effect for preview
+    virtual void TempExecute() = 0;             // Execute to see temporary effect for preview
 
     virtual std::vector<ShapeBase*> GetTempShapes() const = 0;
 
