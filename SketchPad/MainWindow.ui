@@ -50,6 +50,7 @@
    <addaction name="actionLine"/>
    <addaction name="actionRect"/>
    <addaction name="actionCircle"/>
+   <addaction name="actionText"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionLine">
@@ -74,6 +75,14 @@
    </property>
    <property name="text">
     <string>Circle</string>
+   </property>
+  </action>
+  <action name="actionText">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Text</string>
    </property>
   </action>
  </widget>
