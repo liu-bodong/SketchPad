@@ -1,9 +1,13 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 #include <string>
-#include <qgraphicsscene.h>
+#include <qobjectdefs.h>
+#include <qstring.h>
+#include <qcolor.h>
+#include <qactiongroup.h>
+#include <qmainwindow.h>
+#include <qwidget.h>
 
 class Editor;
 
@@ -29,7 +33,6 @@ public slots:
     void OnDrawSelected();
     void OnSelectSelected();
     void UncheckShapeAction();
-    void SetLineEditVisible();
 
 private:
     MainWindow(QWidget* parent = nullptr);

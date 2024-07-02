@@ -1,7 +1,5 @@
 #include "Canvas.h"
 #include <qgraphicsview.h>
-#include <qpainter.h>
-#include <qgraphicsscene.h>
 #include <qpoint.h>
 #include <qevent.h>
 #include <iostream>
@@ -11,12 +9,12 @@
 #include <qfiledialog.h>
 #include <qfile.h>
 #include <qdatastream.h>
-#include "LineItem.h"
-#include "RectItem.h"
-#include "CircleItem.h"
-#include "TextItem.h"
-#include <qdebug.h>
 #include "History.h"
+#include <qglobal.h>
+#include <qiodevice.h>
+#include <qmetatype.h>
+#include <qstring.h>
+#include <new>
 
 
 Canvas* Canvas::g_pInstance = new (std::nothrow) Canvas();
@@ -75,7 +73,7 @@ bool Canvas::LoadFromFile()
         return false;
     }
     QDataStream in(&file);
-    unsigned size;
+    quint16 size;
     in >> size;
     for (int i = 0; i < size; i++)
     {
@@ -110,7 +108,7 @@ bool Canvas::SaveToFile()
         return false;
     }
     QDataStream out(&file);
-    unsigned size = m_shapes.size();
+    auto size = quint16(m_shapes.size());
     out << size;
     for (int i = 0; i < size; i++)
     {

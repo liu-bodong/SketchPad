@@ -14,6 +14,30 @@ void CircleItem::Paint(QPainter& painter)
 
 bool CircleItem::Selectable(QPointF point) const
 {
+    // Cursor boundaries
+    QLineF top(point, QPointF(point.x() + 10, point.y()));
+    QLineF bottom(QPointF(point.x(), point.y() + 10), QPointF(point.x() + 10, point.y() + 10));
+    QLineF left(point, QPointF(point.x(), point.y() + 10));
+    QLineF right(QPointF(point.x() + 10, point.y()), QPointF(point.x() + 10, point.y() + 10));
+    QList<QLineF> cursorLines = { top, bottom, left, right };
+
+    for (auto i = 0; i < 360; ++i)
+    {
+        double theta1 = i * 3.14159265358979323846 / 180;
+        double theta2 = (i + 1) * 3.14159265358979323846 / 180;
+        auto x1 = m_center.x() + m_radius * cos(theta1);
+        auto y1 = m_center.y() + m_radius * sin(theta1);
+        auto x2 = m_center.x() + m_radius * cos(theta2);
+        auto y2 = m_center.y() + m_radius * sin(theta2);
+        auto p1 = QPointF(x1, y1);
+        auto p2 = QPointF(x2, y2);
+        QLineF tangent(p1, p2);
+        for (auto const& cLine : cursorLines)
+        {
+            if (tangent.intersect(cLine, nullptr) == QLineF::BoundedIntersection)
+                return true;
+        }
+    }
     return false;
 }
 

@@ -17,6 +17,8 @@ Editor::Editor(QWidget* parent)
     m_pCanvas = Canvas::GetInstance();
     m_pen.setColor(Qt::black);
     m_pen.setWidth(3);
+    m_pen.setCapStyle(Qt::FlatCap);
+    m_pen.setJoinStyle(Qt::MiterJoin);
 }
 
 void Editor::SetMode(Mode mode)

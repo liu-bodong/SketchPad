@@ -70,11 +70,6 @@ void MainWindow::UncheckShapeAction()
     { m_pActionGroup->checkedAction()->setChecked(false); }
 }
 
-void MainWindow::SetLineEditVisible()
-{
-    ui.lineEdit->setVisible(true);
-}
-
 // ##################### Protected #####################
 
 
@@ -125,8 +120,6 @@ void MainWindow::Init()
     ui.actionDraw->setChecked(true);
     m_pModeGroup->setExclusive(true);
 
-    ui.lineEdit->setVisible(false);
-
     auto pal = QPalette();
     pal.setColor(QPalette::Window, Qt::white);
     ui.widget->setAutoFillBackground(true);
@@ -146,7 +139,6 @@ void MainWindow::SetupConnections()
     // default draw behavior
     connect(ui.actionDraw, &QAction::triggered, ui.widget, &Editor::OnLineSelected);
     connect(this, &MainWindow::SelectLine, ui.widget, &Editor::OnLineSelected);
-    connect(ui.actionText, &QAction::triggered, this, &MainWindow::SetLineEditVisible);
 
     // Other actions
     connect(ui.actionUndo, &QAction::triggered, ui.widget, &Editor::OnUndoSelected);
