@@ -1,6 +1,7 @@
 #include "SelectCommand.h"
 #include "Canvas.h"
 #include "ShapeBase.h"
+#include <QDebug>
 
 void SelectCommand::Execute()
 {
@@ -10,33 +11,35 @@ void SelectCommand::Execute()
 
 void SelectCommand::TempExecute()
 {
-    // If the temp points are valid, get the shape at the temp point
-    if (m_pCanvas->GetShape(m_tempPoints[0]))
+    m_pTempSelectedShape = m_pCanvas->GetShape(m_tempPoints[0]);
+
+    if (m_tempShapes.empty() && m_pTempSelectedShape)
     {
-        m_pTempSelectedShape = m_pCanvas->GetShape(m_tempPoints[0]);
+        m_tempShapes.push_back(m_pTempSelectedShape);
+    }
 
-        if (m_tempShapes.empty())
-        {
-            m_tempShapes.push_back(m_pTempSelectedShape);
-        }
-
+    if (m_pTempSelectedShape && (m_pLastTempSelectedShape != m_pTempSelectedShape))
+    {
         m_originalColor = m_pTempSelectedShape->GetPenColor();
+        qDebug() << "save original color: " << m_originalColor.name();
+    }
 
-        if (m_pLastTempSelectedShape != nullptr)
-        {
-            m_pLastTempSelectedShape->SetPenColor(m_originalColor);
-        }
+    if (m_pLastTempSelectedShape)
+    {
+        m_pLastTempSelectedShape->SetPenColor(m_originalColor);
+        qDebug() << "restore original color";
+    }
 
+    if (m_pTempSelectedShape)
+    {
         m_pLastTempSelectedShape = m_pTempSelectedShape; // Save the last selected shape
+        qDebug() << "save last selected shape";
+    }
 
-        if (m_originalColor == QColor(Qt::blue))
-        {
-            m_pTempSelectedShape->SetPenColor(Qt::red);
-        }
-        else
-        {
-            m_pTempSelectedShape->SetPenColor(Qt::blue);
-        }
+    if (m_pTempSelectedShape)
+    {
+        m_pTempSelectedShape->SetPenColor(Qt::blue);
+        qDebug() << "set pen color to blue";
     }
 }
 

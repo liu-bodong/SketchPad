@@ -77,7 +77,6 @@ bool Canvas::LoadFromFile()
     QDataStream in(&file);
     unsigned size;
     in >> size;
-    qDebug() << "size: " << size;
     for (int i = 0; i < size; i++)
     {
         int type;
@@ -125,7 +124,6 @@ bool Canvas::SaveToFile()
     QDataStream out(&file);
     unsigned size = m_shapes.size();
     out << size;
-    qDebug() << "Saved size: " << size;
     for (int i = 0; i < size; i++)
     {
         m_shapes[i]->Serialize(out);

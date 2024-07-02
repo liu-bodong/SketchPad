@@ -93,6 +93,7 @@ void Editor::OnSelectSelected()
 {
     m_pCommand = CommandRegister::GetInstance()->GetCommand("Select");
     m_mode = eSelecting;
+    m_perm = true;
 }
 
 // ##################### Private #####################
@@ -188,7 +189,6 @@ void Editor::mousePressEvent(QMouseEvent* event)
             update();
             m_pCommand->ClearTemp();
             m_pCommand->Clear();
-            qDebug() << "Selected";
         }
         break;
     }
@@ -215,11 +215,12 @@ void Editor::mouseMoveEvent(QMouseEvent* event)
     }
     case eSelecting:
     {
-        m_perm = true;
-        if (m_pCommand->IsTempReady()) { m_pCommand->ModifyTempPoint(event->pos()); }
-        else { m_pCommand->AddTempPoint(event->pos()); }
-        qDebug() << event->pos();
-        update();
+        if (m_perm)
+        {
+            if (m_pCommand->IsTempReady()) { m_pCommand->ModifyTempPoint(event->pos()); }
+            else { m_pCommand->AddTempPoint(event->pos()); }
+            update();
+        }
         break;
     }
     }
