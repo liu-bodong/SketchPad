@@ -7,6 +7,17 @@
 #include <iostream>
 #include "ShapeBase.h"
 #include "Memento.h"
+#include "MainWindow.h"
+#include <qfiledialog.h>
+#include <qfile.h>
+#include <qdatastream.h>
+#include "LineItem.h"
+#include "RectItem.h"
+#include "CircleItem.h"
+#include "TextItem.h"
+#include <qdebug.h>
+#include "History.h"
+
 
 Canvas* Canvas::g_pInstance = new (std::nothrow) Canvas();
 
@@ -49,21 +60,89 @@ Memento* Canvas::CreateMemento()
     return memento;
 }
 
-bool Canvas::LoadFromFile(std::string)
+bool Canvas::LoadFromFile()
 {
-    // TODO
-    return false;
+    QString fileName = QFileDialog::getOpenFileName(MainWindow::GetInstance(), "Open File", "", "Data Files (*.dat)");
+    if (fileName.isEmpty()) {
+        return false;
+    }
+    Clear();
+    History::GetInstance()->ClearUndo();
+    History::GetInstance()->ClearRedo();
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return false;
+    }
+    QDataStream in(&file);
+    unsigned size;
+    in >> size;
+    qDebug() << "size: " << size;
+    for (int i = 0; i < size; i++)
+    {
+        int type;
+        in >> type;
+        ShapeBase* shape = nullptr;
+        switch (type)
+        {
+        case 0:
+            shape = new LineItem();
+            break;
+        case 1:
+            shape = new RectItem();
+            break;
+        case 2:
+            shape = new CircleItem();
+            break;
+        case 3:
+            shape = new TextItem();
+            break;
+        default:
+            break;
+        }
+        if (shape)
+        {
+            shape->Deserialize(in);
+            m_shapes.push_back(shape);
+        }
+    }
+
+    file.close();
+    return true;
 }
 
-bool Canvas::SaveToFile(std::string)
+bool Canvas::SaveToFile()
 {
-    // TODO
-    return false;
+    QString fileName = QFileDialog::getSaveFileName(MainWindow::GetInstance(), "Save File", "", "Data Files (*.dat)");
+    if (fileName.isEmpty()) {
+        return false;
+    }
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        return false;
+    }
+    QDataStream out(&file);
+    unsigned size = m_shapes.size();
+    out << size;
+    qDebug() << "Saved size: " << size;
+    for (int i = 0; i < size; i++)
+    {
+        m_shapes[i]->Serialize(out);
+    }
+    file.close();
+    return true;
 }
 
-ShapeBase* Canvas::GetShape(QPoint point)
+ShapeBase* Canvas::GetShape(QPointF point)
 {
-    // TODO
+    for (auto it = m_shapes.rbegin(); it != m_shapes.rend(); ++it)
+    {
+        if ((*it)->Selectable(point))
+        {
+            return *it;
+        }
+    }
     return nullptr;
 }
 

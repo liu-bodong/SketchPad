@@ -10,7 +10,7 @@ public:
 
     void Paint(QPainter&) override;
 
-    bool Selectable(QPoint) const override;
+    bool Selectable(QPointF) const override;
     bool Transform(QPoint) override;
     void Serialize(QDataStream&) const override;
     void Deserialize(QDataStream&) override;

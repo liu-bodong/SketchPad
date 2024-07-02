@@ -1,1 +1,5 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/SketchPad">
+        <file>Resource/pixil-frame-0.png</file>
+    </qresource>
+</RCC>

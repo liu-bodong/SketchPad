@@ -18,6 +18,8 @@ public:
 
     void ClearRedo() { while (!m_redoStack.empty()) { m_redoStack.pop(); } }
 
+    void ClearUndo() { while (!m_undoStack.empty()) { m_undoStack.pop(); } }
+
     Memento* GetLast() { return m_pLast; }
     void SetLast(Memento* memento) { m_pLast = memento; }
 

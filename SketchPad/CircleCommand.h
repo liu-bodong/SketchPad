@@ -19,7 +19,7 @@ public:
 
     void AddTempPoint(QPointF p) override { m_tempPoints.push_back(p); };
     void ModifyTempPoint(QPointF p) override { m_tempPoints[1] = p; };
-    void ClearTempPoints() override { m_tempPoints.clear(); };
+    void ClearTemp() override { m_tempPoints.clear(); };
     bool IsTempReady() const override { return m_tempPoints.size() == 2; };
     void TempExecute() override;
 

@@ -17,13 +17,13 @@ public:
     void AddShape(ShapeBase*);
     void DeleteShape(ShapeBase*);
 
-    ShapeBase* GetShape(QPoint);
+    ShapeBase* GetShape(QPointF);
 
     std::vector<ShapeBase*> GetShapes() const { return m_shapes; }
     void SetShapes(const std::vector<ShapeBase*>& shapes) { m_shapes = shapes; }
 
-    bool LoadFromFile(std::string);
-    bool SaveToFile(std::string);
+    bool LoadFromFile();
+    bool SaveToFile();
 
     Memento* CreateMemento();
 
@@ -31,12 +31,19 @@ public:
 
     bool IsEmpty() const { return m_shapes.empty(); }
 
+    void SetPen(QPen& pen) { m_pen = pen; }
+    QPen& GetPen() { return m_pen; }
+
 private:
     Canvas();
     Canvas(const Canvas&);
     ~Canvas() = default;
 
     static Canvas* g_pInstance;
+
+    QPen m_pen;
+
+    std::string m_fileName = "shapes.dat";
 
     std::vector<ShapeBase*> m_shapes;
 };

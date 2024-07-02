@@ -28,7 +28,7 @@ public:
 
     virtual void AddTempPoint(QPointF) = 0;     // Add a point to the temporary shape
     virtual void ModifyTempPoint(QPointF) = 0;  // Modify the last point of the temporary shape
-    virtual void ClearTempPoints() = 0;         // Clear the temporary shape points
+    virtual void ClearTemp() = 0;         // Clear the temporary shape points
     virtual bool IsTempReady() const = 0;       // Check if the number of points has reached the required count
     virtual void TempExecute() = 0;             // Execute to see temporary effect for preview
 

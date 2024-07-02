@@ -5,7 +5,7 @@ void TextItem::Paint(QPainter& painter)
     painter.drawText(m_center, m_text);
 }
 
-bool TextItem::Selectable(QPoint point) const
+bool TextItem::Selectable(QPointF point) const
 {
     return false;
 }
@@ -17,12 +17,12 @@ bool TextItem::Transform(QPoint point)
 
 void TextItem::Serialize(QDataStream& stream) const
 {
-    stream << m_center << m_text;
+    stream << int(3) << m_center << m_text << m_pen;
 }
 
 void TextItem::Deserialize(QDataStream& stream)
 {
-    stream >> m_center >> m_text;
+    stream >> m_center >> m_text >> m_pen;
 }
 
 TextItem* TextItem::Clone() const

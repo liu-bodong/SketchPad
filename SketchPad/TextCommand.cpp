@@ -5,7 +5,8 @@
 
 void TextCommand::Execute()
 {
-    auto pEditor = MainWindow::GetInstance()->GetEditor();
+    auto pMW = MainWindow::GetInstance();
+    auto pEditor = pMW->GetEditor();
 
     bool isFirstSave = m_pHistory->IsUndoEmpty();
 
@@ -13,7 +14,7 @@ void TextCommand::Execute()
 
     auto text = new TextItem();
     text->SetCenter(center);
-    text->SetText("Something");
+    text->SetText(pMW->GetText());
 
     if (isFirstSave)
     {

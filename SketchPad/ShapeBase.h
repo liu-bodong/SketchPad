@@ -16,7 +16,7 @@ public:
 
     virtual void Paint(QPainter&) = 0;
 
-    virtual bool Selectable(QPoint) const = 0;
+    virtual bool Selectable(QPointF) const = 0;
     virtual bool Transform(QPoint) = 0;
     virtual ShapeBase* Clone() const = 0;
     virtual void Serialize(QDataStream&) const = 0;
@@ -27,6 +27,7 @@ public:
     void SetPenWidth(int width) { m_pen.setWidth(width); }
 
     QPen GetPen() { return m_pen; }
+    QColor GetPenColor() { return m_pen.color(); }
 
 protected:
     QPen m_pen;

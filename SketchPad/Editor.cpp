@@ -2,13 +2,12 @@
 #include "CommandRegister.h"
 #include "CommandBase.h"
 #include "Canvas.h"
-#include "LineCommand.h"
 #include <qgraphicsview.h>
 #include <qwidget.h>
 #include <qpen.h>
-#include <qobjectdefs.h>
 #include <qdebug.h>
-#include <qwidget.h>
+#include "SelectCommand.h"
+#include <memory>
 
 
 // ##################### Public #####################
@@ -75,6 +74,27 @@ void Editor::OnClearClicked()
     update();
 }
 
+void Editor::OnSaveClicked()
+{
+    m_pCommand = CommandRegister::GetInstance()->GetCommand("Save");
+    m_mode = eIdle;
+    m_pCommand->Execute();
+}
+
+void Editor::OnLoadClicked()
+{
+    m_pCommand = CommandRegister::GetInstance()->GetCommand("Load");
+    m_mode = eIdle;
+    m_pCommand->Execute();
+    update();
+}
+
+void Editor::OnSelectSelected()
+{
+    m_pCommand = CommandRegister::GetInstance()->GetCommand("Select");
+    m_mode = eSelecting;
+}
+
 // ##################### Private #####################
 
 void Editor::paintEvent(QPaintEvent* event)
@@ -88,25 +108,40 @@ void Editor::paintEvent(QPaintEvent* event)
     {
         painter.setPen(item->GetPen());
         item->Paint(painter);
-        qDebug() << "Painted";
     }
     if (m_perm && m_pCommand->IsTempReady())
     {
         m_pCommand->TempExecute();
-        for (auto item : m_pCommand->GetTempShapes())
+        switch (m_mode) {
+        case eDrawing:
         {
-            //painter.setPen(item->GetPen());
-            painter.setPen(m_pen);
-            item->Paint(painter);
+            for (auto item : m_pCommand->GetTempShapes())
+            {
+                painter.setPen(m_pen);
+                item->Paint(painter);
+            }
+            break;
         }
-        qDebug() << "Temp Painted";
+        case eSelecting:
+        {
+            for (auto item : m_pCommand->GetTempShapes())
+            {
+                painter.setPen(item->GetPen());
+                item->Paint(painter);
+            }
+            break;
+        }
+        case eIdle:
+        {
+            break;
+        }
+        }
+        return;
     }
-    return;
 }
 
 void Editor::mousePressEvent(QMouseEvent* event)
 {
-    qDebug() << "Mouse Pressed";
     switch (m_mode)
     {
     case eIdle:
@@ -125,7 +160,7 @@ void Editor::mousePressEvent(QMouseEvent* event)
                 m_pCommand->Execute();
                 m_perm = false;
                 update();
-                m_pCommand->ClearTempPoints();
+                m_pCommand->ClearTemp();
                 m_pCommand->Clear();
             }
         }
@@ -134,7 +169,7 @@ void Editor::mousePressEvent(QMouseEvent* event)
             // Click Right Button to cancel the drawing
             m_perm = false;
             update();
-            m_pCommand->ClearTempPoints();
+            m_pCommand->ClearTemp();
             m_pCommand->Clear();
         }
         else
@@ -145,6 +180,16 @@ void Editor::mousePressEvent(QMouseEvent* event)
     }
     case eSelecting:
     {
+        m_pCommand->AddPoint(event->pos());
+        if (m_pCommand->IsReady())
+        {
+            m_pCommand->Execute();
+            m_perm = false;
+            update();
+            m_pCommand->ClearTemp();
+            m_pCommand->Clear();
+            qDebug() << "Selected";
+        }
         break;
     }
     }
@@ -170,6 +215,11 @@ void Editor::mouseMoveEvent(QMouseEvent* event)
     }
     case eSelecting:
     {
+        m_perm = true;
+        if (m_pCommand->IsTempReady()) { m_pCommand->ModifyTempPoint(event->pos()); }
+        else { m_pCommand->AddTempPoint(event->pos()); }
+        qDebug() << event->pos();
+        update();
         break;
     }
     }
@@ -177,6 +227,5 @@ void Editor::mouseMoveEvent(QMouseEvent* event)
 
 void Editor::mouseReleaseEvent(QMouseEvent* event)
 {
-    qDebug() << "Mouse Released";
 }
 

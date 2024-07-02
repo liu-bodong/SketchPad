@@ -12,7 +12,7 @@ void CircleItem::Paint(QPainter& painter)
     painter.drawPath(path);
 }
 
-bool CircleItem::Selectable(QPoint point) const
+bool CircleItem::Selectable(QPointF point) const
 {
     return false;
 }
@@ -24,12 +24,12 @@ bool CircleItem::Transform(QPoint point)
 
 void CircleItem::Serialize(QDataStream& stream) const
 {
-    stream << m_center << m_radius;
+    stream << int(2) << m_center << m_radius << m_pen;
 }
 
 void CircleItem::Deserialize(QDataStream& stream)
 {
-    stream >> m_center >> m_radius;
+    stream >> m_center >> m_radius >> m_pen;
 }
 
 CircleItem* CircleItem::Clone() const

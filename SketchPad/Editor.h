@@ -33,6 +33,9 @@ public:
     void SetPen(QPen& pen) { m_pen = pen; }
     QPen& GetPen() { return m_pen; }
 
+signals:
+
+
 public slots:
     void OnLineSelected();
     void OnRectSelected();
@@ -43,7 +46,9 @@ public slots:
     void OnClearClicked();
     void OnColorChanged(QColor& color) { m_pen.setColor(color); }
     void OnWidthChanged(int width) { m_pen.setWidth(width); }
-
+    void OnSaveClicked();
+    void OnLoadClicked();
+    void OnSelectSelected();
 
 private:
     void paintEvent(QPaintEvent*) override;

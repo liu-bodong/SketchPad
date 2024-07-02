@@ -36,7 +36,7 @@ void History::Undo()
 
 void History::Redo()
 {
-    if (!m_redoStack.empty() && m_pLast)
+    if (!m_redoStack.empty())
     {
         m_undoStack.push(m_pLast);
         m_pLast = m_redoStack.top();

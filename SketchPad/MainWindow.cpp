@@ -10,11 +10,15 @@
 #include "UndoCommand.h"
 #include "RedoCommand.h"
 #include "ClearCommand.h"
+#include "SaveCommand.h"
+#include "LoadCommand.h"
+#include "SelectCommand.h"
 
 #include "Editor.h"
 #include <qactiongroup.h>
 #include <qcolordialog.h>
 #include <qpalette.h>
+#include <qcursor.h>
 
 
 // ##################### Public #####################
@@ -46,6 +50,30 @@ void MainWindow::ChangeButtonColor(QColor& color)
     ui.colorButton->update();
 }
 
+void MainWindow::OnDrawSelected()
+{
+    m_pActionGroup->setEnabled(true);
+    ui.widget->setCursor(Qt::CrossCursor);
+    ui.actionLine->setChecked(true);
+}
+
+void MainWindow::OnSelectSelected()
+{
+    m_pActionGroup->setDisabled(true);
+    ui.widget->setCursor(QCursor(QPixmap(":/SketchPad/Resource/pixil-frame-0.png"), 0, 0));
+    // :/SketchPad/Resource/pixil-frame-0.png
+}
+
+void MainWindow::UncheckShapeAction()
+{
+    if (m_pActionGroup->checkedAction())
+    { m_pActionGroup->checkedAction()->setChecked(false); }
+}
+
+void MainWindow::SetLineEditVisible()
+{
+    ui.lineEdit->setVisible(true);
+}
 
 // ##################### Protected #####################
 
@@ -58,6 +86,8 @@ MainWindow::MainWindow(QWidget* parent)
 {
     ui.setupUi(this);
     Init();
+    SetupConnections();
+    emit SelectLine();
 }
 
 void MainWindow::Init()
@@ -69,30 +99,31 @@ void MainWindow::Init()
     CommandRegister::GetInstance()->RegisterCommand("Undo", new UndoCommand(Canvas::GetInstance()));
     CommandRegister::GetInstance()->RegisterCommand("Redo", new RedoCommand(Canvas::GetInstance()));
     CommandRegister::GetInstance()->RegisterCommand("Clear", new ClearCommand(Canvas::GetInstance()));
+    CommandRegister::GetInstance()->RegisterCommand("Save", new SaveCommand(Canvas::GetInstance()));
+    CommandRegister::GetInstance()->RegisterCommand("Load", new LoadCommand(Canvas::GetInstance()));
+    CommandRegister::GetInstance()->RegisterCommand("Select", new SelectCommand(Canvas::GetInstance()));
 
-    connect(ui.actionLine, &QAction::triggered, ui.widget, &Editor::OnLineSelected);
-    connect(ui.actionRect, &QAction::triggered, ui.widget, &Editor::OnRectSelected);
-    connect(ui.actionCircle, &QAction::triggered, ui.widget, &Editor::OnCircleSelected);
-    connect(ui.actionText, &QAction::triggered, ui.widget, &Editor::OnTextSelected);
-    connect(ui.actionUndo, &QAction::triggered, ui.widget, &Editor::OnUndoSelected);
-    connect(ui.actionRedo, &QAction::triggered, ui.widget, &Editor::OnRedoSelected);
-    connect(ui.actionClear, &QAction::triggered, ui.widget, &Editor::OnClearClicked);
+    m_pActionGroup = new QActionGroup(this);
+    m_pActionGroup->addAction(ui.actionLine);
+    m_pActionGroup->addAction(ui.actionRect);
+    m_pActionGroup->addAction(ui.actionCircle);
+    m_pActionGroup->addAction(ui.actionText);
+    ui.actionLine->setChecked(true);
 
-    connect(ui.colorButton, &QToolButton::clicked, this, &MainWindow::OpenColorDialog);
-    connect(this, &MainWindow::ColorChanged, this, &MainWindow::ChangeButtonColor);
-    connect(this, &MainWindow::ColorChanged, ui.widget, &Editor::OnColorChanged);
-    connect(ui.spinBox, SIGNAL(valueChanged(int)), ui.widget, SLOT(OnWidthChanged(int)));
+    m_pActionGroup->setExclusive(true);
 
-    auto actionGroup = new QActionGroup(this);
-    actionGroup->addAction(ui.actionLine);
-    actionGroup->addAction(ui.actionRect);
-    actionGroup->addAction(ui.actionCircle);
-    actionGroup->addAction(ui.actionText);
-    actionGroup->addAction(ui.actionUndo);
-    actionGroup->addAction(ui.actionRedo);
+    m_pModeGroup = new QActionGroup(this);
+    m_pModeGroup->addAction(ui.actionSelect);
+    m_pModeGroup->addAction(ui.actionDraw);
+    ui.actionDraw->setChecked(true);
+    m_pModeGroup->setExclusive(true);
 
+    ui.lineEdit->setVisible(false);
 
-    actionGroup->setExclusive(true);
+    auto pal = QPalette();
+    pal.setColor(QPalette::Window, Qt::white);
+    ui.widget->setAutoFillBackground(true);
+    ui.widget->setPalette(pal);
 }
 
 MainWindow::~MainWindow()
@@ -100,7 +131,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::SetupConnections()
 {
-    // connect(this, &MainWindow::CommandSelected, this, &Editor::OnLineSelected);
-    return;
+    // Shape actions
+    connect(ui.actionLine, &QAction::triggered, ui.widget, &Editor::OnLineSelected);
+    connect(ui.actionRect, &QAction::triggered, ui.widget, &Editor::OnRectSelected);
+    connect(ui.actionCircle, &QAction::triggered, ui.widget, &Editor::OnCircleSelected);
+    connect(ui.actionText, &QAction::triggered, ui.widget, &Editor::OnTextSelected);
+    // default draw behavior
+    connect(ui.actionDraw, &QAction::triggered, ui.widget, &Editor::OnLineSelected);
+    connect(this, &MainWindow::SelectLine, ui.widget, &Editor::OnLineSelected);
+    connect(ui.actionText, &QAction::triggered, this, &MainWindow::SetLineEditVisible);
+
+    // Other actions
+    connect(ui.actionUndo, &QAction::triggered, ui.widget, &Editor::OnUndoSelected);
+    connect(ui.actionRedo, &QAction::triggered, ui.widget, &Editor::OnRedoSelected);
+    connect(ui.actionClear, &QAction::triggered, ui.widget, &Editor::OnClearClicked);
+    connect(ui.actionSelect, &QAction::triggered, ui.widget, &Editor::OnSelectSelected);
+
+    connect(ui.actionUndo, &QAction::triggered, this, &MainWindow::UncheckShapeAction);
+    connect(ui.actionRedo, &QAction::triggered, this, &MainWindow::UncheckShapeAction);
+    connect(ui.actionClear, &QAction::triggered, this, &MainWindow::UncheckShapeAction);
+    connect(ui.actionSelect, &QAction::triggered, this, &MainWindow::UncheckShapeAction);
+
+    // change color and width
+    connect(ui.colorButton, &QToolButton::clicked, this, &MainWindow::OpenColorDialog);
+    connect(this, &MainWindow::ColorChanged, this, &MainWindow::ChangeButtonColor);
+    connect(this, &MainWindow::ColorChanged, ui.widget, &Editor::OnColorChanged);
+    connect(ui.spinBox, SIGNAL(valueChanged(int)), ui.widget, SLOT(OnWidthChanged(int)));
+
+    // save load
+    connect(ui.actionSave, &QAction::triggered, ui.widget, &Editor::OnSaveClicked);
+    connect(ui.actionLoad, &QAction::triggered, ui.widget, &Editor::OnLoadClicked);
+
+    // mode
+    connect(ui.actionDraw, &QAction::triggered, this, &MainWindow::OnDrawSelected);
+    connect(ui.actionSelect, &QAction::triggered, this, &MainWindow::OnSelectSelected);
+    connect(ui.actionSelect, &QAction::triggered, this, &MainWindow::UncheckShapeAction);
 }
 

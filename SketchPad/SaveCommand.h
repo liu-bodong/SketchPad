@@ -1,14 +1,11 @@
 #pragma once
 #include "CommandBase.h"
-
-class ClearCommand :
+class SaveCommand :
     public CommandBase
 {
 public:
-    ClearCommand(Canvas* c) : CommandBase(c) {};
-    ~ClearCommand() = default;
-
-    void Execute() override;
+    SaveCommand(Canvas* c) : CommandBase(c) {};
+    void Execute() override { m_pCanvas->SaveToFile(); }
 
     void AddPoint(QPointF) override { /* No Effect */ };
     void Clear() override { /* No Effect */ };
@@ -18,8 +15,6 @@ public:
     void ClearTemp() override { /* No Effect */ };
     bool IsTempReady() const override { return true; };
     void TempExecute() override { /* No Effect */ };
-
-
     std::vector<ShapeBase*> GetTempShapes() const override { return std::vector<ShapeBase*>(); };
 
 private:
