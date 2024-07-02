@@ -79,25 +79,13 @@ bool Canvas::LoadFromFile()
     in >> size;
     for (int i = 0; i < size; i++)
     {
-        int type;
+        QString type;
         in >> type;
+        int id = QMetaType::type(type.toStdString().c_str());
         ShapeBase* shape = nullptr;
-        switch (type)
+        if (id > 0)
         {
-        case 0:
-            shape = new LineItem();
-            break;
-        case 1:
-            shape = new RectItem();
-            break;
-        case 2:
-            shape = new CircleItem();
-            break;
-        case 3:
-            shape = new TextItem();
-            break;
-        default:
-            break;
+            shape = static_cast<ShapeBase*>(QMetaType::create(id));
         }
         if (shape)
         {
@@ -126,6 +114,7 @@ bool Canvas::SaveToFile()
     out << size;
     for (int i = 0; i < size; i++)
     {
+        out << m_shapes[i]->GetType();
         m_shapes[i]->Serialize(out);
     }
     file.close();

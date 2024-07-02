@@ -42,7 +42,7 @@ bool LineItem::Selectable(QPointF point) const
 
 void LineItem::Serialize(QDataStream& stream) const
 {
-    stream << int(0) << m_start << m_end << m_pen;
+    stream << m_start << m_end << m_pen;
 }
 
 void LineItem::Deserialize(QDataStream& stream)

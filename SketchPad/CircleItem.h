@@ -19,6 +19,8 @@ public:
     void SetCenter(QPointF pt) { m_center = pt; }
     void SetRadius(double r) { m_radius = r; }
 
+    QString GetType() override { return "Circle"; }
+
 private:
     QPointF m_center;
     double m_radius;

@@ -23,6 +23,8 @@ public:
     void SetLowerRight(double x, double y)
     { m_lowerRight = QPointF(m_upperLeft + QPointF(x, y)); }
 
+    QString GetType() override { return "Rectangle"; }
+
 private:
     QPointF m_upperLeft;
     QPointF m_lowerRight;

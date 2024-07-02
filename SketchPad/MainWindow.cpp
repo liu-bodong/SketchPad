@@ -92,6 +92,11 @@ MainWindow::MainWindow(QWidget* parent)
 
 void MainWindow::Init()
 {
+    qRegisterMetaType<LineItem>("Line");
+    qRegisterMetaType<RectItem>("Rectangle");
+    qRegisterMetaType<CircleItem>("Circle");
+    qRegisterMetaType<TextItem>("Text");
+
     CommandRegister::GetInstance()->RegisterCommand("Line", new LineCommand(Canvas::GetInstance()));
     CommandRegister::GetInstance()->RegisterCommand("Rectangle", new RectCommand(Canvas::GetInstance()));
     CommandRegister::GetInstance()->RegisterCommand("Circle", new CircleCommand(Canvas::GetInstance()));
@@ -102,6 +107,8 @@ void MainWindow::Init()
     CommandRegister::GetInstance()->RegisterCommand("Save", new SaveCommand(Canvas::GetInstance()));
     CommandRegister::GetInstance()->RegisterCommand("Load", new LoadCommand(Canvas::GetInstance()));
     CommandRegister::GetInstance()->RegisterCommand("Select", new SelectCommand(Canvas::GetInstance()));
+
+
 
     m_pActionGroup = new QActionGroup(this);
     m_pActionGroup->addAction(ui.actionLine);

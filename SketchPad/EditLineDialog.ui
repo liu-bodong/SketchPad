@@ -6,129 +6,150 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>392</width>
-    <height>292</height>
+    <width>569</width>
+    <height>422</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>EditLineDialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QLabel" name="xLabel">
-       <property name="font">
-        <font>
-         <pointsize>17</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>x</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="yLabel">
-       <property name="font">
-        <font>
-         <pointsize>17</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>y</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="startLabel">
-       <property name="font">
-        <font>
-         <pointsize>13</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Start</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="startXSpinBox"/>
-     </item>
-     <item row="1" column="2">
-      <widget class="QDoubleSpinBox" name="startYSpinBox"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="endLabel">
-       <property name="font">
-        <font>
-         <pointsize>13</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>End</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QDoubleSpinBox" name="endXSpinBox"/>
-     </item>
-     <item row="2" column="2">
-      <widget class="QDoubleSpinBox" name="endYSpinBox"/>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="angleLabel">
-       <property name="font">
-        <font>
-         <pointsize>13</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Angle</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDial" name="dial"/>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Preferred</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>110</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-  </layout>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>350</y>
+     <width>81</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>Color</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <widget class="QLabel" name="xLabel">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>17</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>x</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="yLabel">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>17</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>y</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="startLabel">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Start</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDoubleSpinBox" name="startXSpinBox"/>
+    </item>
+    <item row="1" column="2">
+     <widget class="QDoubleSpinBox" name="startYSpinBox"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="endLabel">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>End</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="endXSpinBox"/>
+    </item>
+    <item row="2" column="2">
+     <widget class="QDoubleSpinBox" name="endYSpinBox"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="angleLabel">
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Angle</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDial" name="dial"/>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Preferred</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>110</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

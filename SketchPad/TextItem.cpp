@@ -17,7 +17,7 @@ bool TextItem::Transform(QPoint point)
 
 void TextItem::Serialize(QDataStream& stream) const
 {
-    stream << int(3) << m_center << m_text << m_pen;
+    stream << m_center << m_text << m_pen;
 }
 
 void TextItem::Deserialize(QDataStream& stream)

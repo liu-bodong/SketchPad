@@ -49,7 +49,7 @@ bool RectItem::Transform(QPoint point)
 
 void RectItem::Serialize(QDataStream& stream) const
 {
-    stream << int(1) << m_upperLeft << m_lowerRight << m_pen;
+    stream << m_upperLeft << m_lowerRight << m_pen;
 }
 
 void RectItem::Deserialize(QDataStream& stream)

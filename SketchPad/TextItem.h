@@ -23,6 +23,8 @@ public:
     void SetCenter(QPointF pt) { m_center = pt; }
     void SetText(const QString& text) { m_text = text; }
 
+    QString GetType() override { return "Text"; }
+
 private:
     QPointF m_center;
     QString m_text = "Text";
@@ -32,5 +34,6 @@ private:
 
     std::string Name() override { return "Text"; }
     int Id() override { return id; }
+
 };
 

@@ -24,15 +24,17 @@ public:
     void SetStart(QPointF pt) { m_start = pt; }
     void SetEnd(QPointF pt) { m_end = pt; }
 
+    QString GetType() override { return "Line"; }
+
 private:
     QPointF m_start;
     QPointF m_end;
 
-    static int m_idGenerator;
-    int id;
-
     std::string Name() override { return "Line"; }
     int Id() override { return id; }
+
+    static int m_idGenerator;
+    int id;
 };
 
 //int LineItem::m_idGenerator = 0;

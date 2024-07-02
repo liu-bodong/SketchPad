@@ -24,7 +24,7 @@ bool CircleItem::Transform(QPoint point)
 
 void CircleItem::Serialize(QDataStream& stream) const
 {
-    stream << int(2) << m_center << m_radius << m_pen;
+    stream << m_center << m_radius << m_pen;
 }
 
 void CircleItem::Deserialize(QDataStream& stream)

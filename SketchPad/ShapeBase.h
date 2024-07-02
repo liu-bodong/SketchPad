@@ -26,6 +26,9 @@ public:
     void SetPenColor(QColor color) { m_pen.setColor(color); }
     void SetPenWidth(int width) { m_pen.setWidth(width); }
 
+    // GetType
+    virtual QString GetType() = 0;
+
     QPen GetPen() { return m_pen; }
     QColor GetPenColor() { return m_pen.color(); }
 
