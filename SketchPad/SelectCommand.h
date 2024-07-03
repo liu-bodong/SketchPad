@@ -23,10 +23,10 @@ private:
     std::vector<ShapeBase*> m_tempShapes;
     QList<QPointF> m_points;
     QList<QPointF> m_tempPoints;
-    ShapeBase* m_pSelectedShape = nullptr;
-    ShapeBase* m_pTempSelectedShape = nullptr;
-    ShapeBase* m_pLastTempSelectedShape = nullptr;
-    QColor m_originalColor;
+    ShapeBase* m_pSelected = nullptr;
+    ShapeBase* m_pTemp = nullptr;
+    ShapeBase* m_pLastTemp = nullptr;
+    QColor m_color;
 
 };
 

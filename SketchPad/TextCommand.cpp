@@ -15,6 +15,7 @@ void TextCommand::Execute()
     auto text = new TextItem();
     text->SetCenter(center);
     text->SetText(pMW->GetText());
+    text->SetFont(pEditor->GetFont());
 
     if (isFirstSave)
     {

@@ -5,40 +5,44 @@
 
 void SelectCommand::Execute()
 {
-    m_pSelectedShape = m_pTempSelectedShape;
-    m_pSelectedShape->SetPenColor(Qt::blue);
+    m_pSelected = m_pCanvas->GetShape(m_tempPoints[0]);;
+    m_pSelected->SetPenColor(Qt::blue);
 }
 
 void SelectCommand::TempExecute()
 {
-    m_pTempSelectedShape = m_pCanvas->GetShape(m_tempPoints[0]);
-
-    if (m_tempShapes.empty() && m_pTempSelectedShape)
+    m_pTemp = m_pCanvas->GetShape(m_tempPoints[0]);
+    if (m_pCanvas->GetShape(m_tempPoints[0]))
     {
-        m_tempShapes.push_back(m_pTempSelectedShape);
+        m_pTemp = m_pCanvas->GetShape(m_tempPoints[0])->Clone();
     }
 
-    if (m_pTempSelectedShape && (m_pLastTempSelectedShape != m_pTempSelectedShape))
+    if (m_tempShapes.empty() && m_pTemp)
     {
-        m_originalColor = m_pTempSelectedShape->GetPenColor();
-        qDebug() << "save original color: " << m_originalColor.name();
+        m_tempShapes.push_back(m_pTemp);
     }
 
-    if (m_pLastTempSelectedShape)
+    if (m_pTemp && (m_pLastTemp != m_pTemp))
     {
-        m_pLastTempSelectedShape->SetPenColor(m_originalColor);
+        m_color = m_pTemp->GetPenColor();
+        qDebug() << "save original color: " << m_color.name();
+    }
+
+    if (m_pLastTemp)
+    {
+        m_pLastTemp->SetPenColor(m_color);
         qDebug() << "restore original color";
     }
 
-    if (m_pTempSelectedShape)
+    if (m_pTemp)
     {
-        m_pLastTempSelectedShape = m_pTempSelectedShape; // Save the last selected shape
+        m_pLastTemp = m_pTemp; // Save the last selected shape
         qDebug() << "save last selected shape";
     }
 
-    if (m_pTempSelectedShape)
+    if (m_pTemp)
     {
-        m_pTempSelectedShape->SetPenColor(Qt::blue);
+        m_pTemp->SetPenColor(Qt::blue);
         qDebug() << "set pen color to blue";
     }
 }
@@ -51,12 +55,12 @@ bool SelectCommand::IsTempReady() const
 
 bool SelectCommand::IsReady() const
 {
-    return (m_pTempSelectedShape) && (m_points.size() == 1);
+    return (m_pTemp) && (m_points.size() == 1);
 }
 
 void SelectCommand::ClearTemp()
 {
     m_tempPoints.clear();
     m_tempShapes.clear();
-    m_pTempSelectedShape = nullptr;
+    m_pTemp = nullptr;
 }

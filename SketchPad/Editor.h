@@ -33,6 +33,9 @@ public:
     void SetPen(QPen& pen) { m_pen = pen; }
     QPen& GetPen() { return m_pen; }
 
+    void SetFont(QFont& font) { m_font = font; }
+    QFont& GetFont() { return m_font; }
+
 signals:
 
 
@@ -49,6 +52,7 @@ public slots:
     void OnSaveClicked();
     void OnLoadClicked();
     void OnSelectSelected();
+    void OnFontChanged(QFont& font) { m_font = font; }
 
 private:
     void paintEvent(QPaintEvent*) override;
@@ -64,5 +68,6 @@ private:
     bool m_perm = false;
 
     QPen m_pen;
+    QFont m_font;
 };
 
